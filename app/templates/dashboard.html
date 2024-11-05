@@ -48,18 +48,6 @@
 <body>
     <h1>Excel Analysis Dashboard</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" required>
-        <input type="text" name="query" placeholder="Ask a question about the data" required>
-        <button type="submit">Analyze</button>
-    </form>
-
-    {% if error_message %}
-    <div class="error">
-        <p>{{ error_message }}</p>
-    </div>
-    {% endif %}
-
     {% if summary_data %}
     <h2>Data Summary</h2>
     <table class="data">

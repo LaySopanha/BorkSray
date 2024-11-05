@@ -3,19 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <title>Excel Analysis Dashboard</title>
+    <title>Enterprise Planning Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='page1.css') }}">
 </head>
 <body>
-    <h1>Excel Analysis Dashboard</h1>
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="file" required>
-        <input type="text" name="query" placeholder="Enter your query" required>
-        <button type="submit">Analyze</button>
-    </form>
-    {% if answer %}
-        <h2>Response:</h2>
-        <p>{{ answer }}</p>
-    {% endif %}
+    <!-- Header Section -->
+    <header>
+        <nav>
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <img src="{{ url_for('static', filename='BORKSRAY.png') }}" alt="Bork Sray Logo">
+            </a>
+    
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="#">Solutions</a></li>
+                <li><a href="#">Platform</a></li>
+                <li><a href="#">Resources</a></li>
+                <li><a href="#">About Us</a></li>
+            </ul>
+    
+            <!-- Right-side Icons and Button -->
+            <div class="header-actions">
+                <a href="#" class="icon search-icon">🔍</a>
+                <a href="#" class="icon language-icon">🌐 EN ▼</a>
+                <button class="request-demo">Request a demo</button>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>BORKSRAY is the <span class="highlight">Analyst tool for your Business</span></h1>
+            <p>We empower SMEs to transform their Excel data into valuable insights with the power of AI, helping drive smarter decisions and streamlined operations.</p>
+            <form action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" required>
+                <input type="text" name="query" placeholder="Ask a question about the data" required>
+                <button type="submit" class="primary-btn">Upload your CSV file</button>
+            </form>
+            <button class="secondary-btn">Find your solution</button>
+        </div>
+    </section>
+    
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 BORK SRAY. All rights reserved</p>
+    </footer>
+
+    <!-- JavaScript for File Upload (Optional) -->
+    <script>
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            alert(`File uploaded: ${file.name}`);
+            // You can add more file handling logic here
+        }
+    </script>
 </body>
 </html>

@@ -1,0 +1,201 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #f8f9fa;
+}
+
+/* Header */
+header {
+    background-color: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo Styling */
+.logo img {
+    width: 100px; /* Set a fixed width for the logo */
+    height: auto; /* Maintain the aspect ratio */
+    margin-right: 20px; /* Add some space between the logo and nav items */
+}
+
+/* Navigation Links Styling */
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px; /* Space between each navigation link */
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    text-decoration: underline;
+    color: #ff7f3f; /* Change link color on hover */
+}
+
+/* Right-Side Actions (Icons and Button) */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon {
+    font-size: 16px;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.icon:hover {
+    color: #ff7f3f;
+}
+
+/* Request Demo Button Styling */
+.request-demo {
+    background-color: #ff7f3f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.request-demo:hover {
+    background-color: #ff6b3f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; /* Hide navigation links on smaller screens */
+    }
+
+    header {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Hero Section */
+.hero {
+    display: flex;
+    align-items: center; /* Center content vertically */
+    justify-content: center; /* Center content horizontally */
+    flex-direction: column; /* Stack elements vertically */
+    padding: 80px 20px; /* Adjusted padding for smaller screens */
+    background-color: #f4f8fb;
+    text-align: center; /* Center text */
+    min-height: 100vh; /* Ensure hero section takes full height of the viewport */
+}
+
+.hero-text {
+    max-width: 600px; /* Limit the width of the text container */
+}
+
+.hero-text h1 {
+    font-size: 2.8em;
+    font-weight: bold;
+    color: #1e2e5c; /* Dark blue color */
+    line-height: 1.2;
+}
+
+.hero-text .highlight {
+    color: #1e2e5c;
+    text-decoration: underline; /* Emphasize highlighted text */
+}
+
+.hero-text p {
+    font-size: 1.1em;
+    color: #666;
+    margin: 20px 0 40px; /* Spacing around the paragraph */
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center; /* Center the buttons */
+}
+
+
+.primary-btn {
+    background-color: #1e2e5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #16376b;
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: #1e2e5c;
+    border: 1px solid #1e2e5c;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.secondary-btn:hover {
+    background-color: #1e2e5c;
+    color: white;
+}
+
+
+/* Dashboard Preview */
+.dashboard-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.chart {
+    background-color: white;
+    padding: 20px;
+    width: 220px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+    font-size: 0.9em;
+    border-top: 1px solid #e0e0e0;
+}

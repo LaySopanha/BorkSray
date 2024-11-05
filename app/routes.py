@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 import pandas as pd
 import plotly.express as px
 import plotly
@@ -19,6 +19,10 @@ def index():
             file = request.files["file"]
             # Load and analyze the Excel file
             data_info, error_message = analyze_excel(file)
+            if error_message:
+                flash(error_message)
+                return redirect(url_for('main.index'))  # Redirect if there's an error
+            
             if data_info:
                 summary_data = generate_data_summary(data_info)
                 
@@ -36,7 +40,11 @@ def index():
             query = request.form["query"]
             response = ask_cohere(query, data_info)
 
-    return render_template("index.html", response=response, summary_data=summary_data, error_message=error_message, charts=charts)
+        # Redirect to the dashboard and pass relevant data
+        return render_template("dashboard.html", response=response, summary_data=summary_data, charts=charts)
+
+    # Render the main page if GET request
+    return render_template("index.html")
 
 # Helper function to create bar charts
 def create_bar_chart(df, column):

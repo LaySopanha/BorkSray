@@ -33,31 +33,23 @@
     </header>
     
     <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>BORKSRAY is the <span class="highlight">Analyst tool for your Business</span></h1>
-            <p>We empower SMEs to transform their Excel data into valuable insights with the power of AI, helping drive smarter decisions and streamlined operations.</p>
-            <form action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data">
-                <input type="file" name="file" required>
-                <input type="text" name="query" placeholder="Ask a question about the data" required>
-                <button type="submit" class="primary-btn">Upload your CSV file</button>
-            </form>
-            <button class="secondary-btn">Find your solution</button>
-        </div>
-    </section>
+<section class="hero">
+    <div class="hero-text">
+        <h1>BORKSRAY is the <span class="highlight">Analyst tool for your Business</span></h1>
+        <p>We empower SMEs to transform their Excel data into valuable insights with the power of AI, helping drive smarter decisions and streamlined operations.</p>
+        <form action="{{ url_for('main.index') }}" method="post" enctype="multipart/form-data">
+            <input type="file" name="file" id="file" required accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+            <input type="text" name="query" placeholder="Ask a question about the data" required>
+            <button type="submit" class="primary-btn">Upload your CSV file</button>
+        </form>
+    </div>
+</section>
+
     
     <!-- Footer Section -->
     <footer>
         <p>&copy; 2024 BORK SRAY. All rights reserved</p>
     </footer>
 
-    <!-- JavaScript for File Upload (Optional) -->
-    <script>
-        function handleFileUpload(event) {
-            const file = event.target.files[0];
-            alert(`File uploaded: ${file.name}`);
-            // You can add more file handling logic here
-        }
-    </script>
 </body>
 </html>

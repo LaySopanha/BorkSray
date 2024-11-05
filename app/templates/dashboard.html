@@ -6,126 +6,178 @@
     <title>Excel Analysis Dashboard</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
+        /* General Reset */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            text-align: center;
-        }
-        .chart-container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        h2 {
             color: #333;
-            margin-top: 30px;
+            background-color: #f8f9fa;
         }
-        .summary, .response, .error {
-            width: 80%;
-            margin: 20px auto;
-            text-align: left;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #f9f9f9;
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
-        .error {
-            color: red;
+
+        /* Chart Containers */
+        .chart-container {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 20px;
         }
+
         table.data {
             width: 100%;
             border-collapse: collapse;
+            margin-top: 20px;
         }
+
         table.data th, table.data td {
             border: 1px solid #ddd;
-            padding: 8px;
-        }
-        table.data th {
-            background-color: #f2f2f2;
+            padding: 8px 12px;
             text-align: left;
         }
+
+        table.data th {
+            background-color: #eaeaea;
+            font-weight: 500;
+        }
+
+        .summary, .response {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide navigation links on smaller screens */
+            }
+
+            header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        .home-button {
+            display: inline-block;
+            background-color: #1e2e5c;  /* Dark blue background */
+            color: white;  /* White text */
+            text-decoration: none;  /* No underline */
+            padding: 10px 20px;  /* Padding around the text */
+            border-radius: 20px;  /* Rounded corners */
+            font-weight: bold;  /* Bold font weight */
+            transition: background-color 0.3s ease;  /* Smooth transition for hover effect */
+        }
+        
+        .home-button:hover {
+            background-color: #16376b;  /* Slightly darker blue on hover */
+        }
+        
+
     </style>
 </head>
 <body>
-    <h1>Excel Analysis Dashboard</h1>
-
-    {% if summary_data %}
-    <h2>Data Summary</h2>
-    <table class="data">
-        <thead>
-            <tr>
-                <th>Column Name</th>
-                <th>Type</th>
-                <th>Top Value</th>
-                <th>Unique Count</th>
-                <th>Mean</th>
-                <th>Min</th>
-                <th>Max</th>
-                <th>Std Dev</th>
-                <th>Earliest</th>
-                <th>Latest</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in summary_data %}
-            <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.type }}</td>
-                {% if item.type == 'categorical' %}
-                <td>{{ item.top }}</td>
-                <td>{{ item.unique_count }}</td>
-                <td colspan="6"></td>  <!-- Empty cells for numerical and datetime columns -->
-                {% elif item.type == 'numerical' %}
-                <td colspan="2"></td> <!-- Empty cells for top value and unique count -->
-                <td>{{ item.mean }}</td>
-                <td>{{ item.min }}</td>
-                <td>{{ item.max }}</td>
-                <td>{{ item.std_dev }}</td>
-                <td colspan="2"></td> <!-- Empty cells for earliest and latest -->
-                {% elif item.type == 'datetime' %}
-                <td colspan="2"></td> <!-- Empty cells for top value and unique count -->
-                <td colspan="4"></td> <!-- Empty cells for mean, min, max, std dev -->
-                <td>{{ item.earliest }}</td>
-                <td>{{ item.latest }}</td>
-                {% endif %}
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
-
-    {% if response %}
-    <h2>Response</h2>
-    <div class="response">{{ response }}</div>
-    {% endif %}
-
-    <div class="chart-container">
-        {% if charts.bar_product %}
-        <h2>Product Frequency</h2>
-        <div id="bar_product"></div>
-        <script>
-            Plotly.newPlot('bar_product', {{ charts.bar_product|safe }});
-        </script>
+    <div class="container">
+        <div class="container">
+            <a href="/" class="home-button">Back to Home</a>
+        </div>
+        {% if summary_data %}
+        <div class="summary">
+            <h2>Data Summary</h2>
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Type</th>
+                        <th>Top Value</th>
+                        <th>Unique Count</th>
+                        <th>Mean</th>
+                        <th>Min</th>
+                        <th>Max</th>
+                        <th>Std Dev</th>
+                        <th>Earliest</th>
+                        <th>Latest</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in summary_data %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.type }}</td>
+                        {% if item.type == 'categorical' %}
+                        <td>{{ item.top }}</td>
+                        <td>{{ item.unique_count }}</td>
+                        <td colspan="6"></td>
+                        {% elif item.type == 'numerical' %}
+                        <td colspan="2"></td>
+                        <td>{{ item.mean }}</td>
+                        <td>{{ item.min }}</td>
+                        <td>{{ item.max }}</td>
+                        <td>{{ item.std_dev }}</td>
+                        <td colspan="2"></td>
+                        {% elif item.type == 'datetime' %}
+                        <td colspan="2"></td>
+                        <td colspan="4"></td>
+                        <td>{{ item.earliest }}</td>
+                        <td>{{ item.latest }}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
         {% endif %}
 
-        {% if charts.bar_region %}
-        <h2>Region Frequency</h2>
-        <div id="bar_region"></div>
-        <script>
-            Plotly.newPlot('bar_region', {{ charts.bar_region|safe }});
-        </script>
+        {% if response %}
+        <div class="response">
+            <h2>Response</h2>
+            <div>{{ response }}</div>
+        </div>
         {% endif %}
 
-        {% if charts.line_sales %}
-        <h2>Sales Over Time</h2>
-        <div id="line_sales"></div>
-        <script>
-            Plotly.newPlot('line_sales', {{ charts.line_sales|safe }});
-        </script>
-        {% endif %}
+        <div class="chart-container">
+            {% if charts.bar_product %}
+            <h2>Product Frequency</h2>
+            <div id="bar_product"></div>
+            <script>
+                Plotly.newPlot('bar_product', {{ charts.bar_product|safe }});
+            </script>
+            {% endif %}
 
-        {% if not charts.bar_product and not charts.bar_region and not charts.line_sales %}
-        <p>No charts to display. Please upload a file with data to generate visualizations.</p>
-        {% endif %}
+            {% if charts.bar_region %}
+            <h2>Region Frequency</h2>
+            <div id="bar_region"></div>
+            <script>
+                Plotly.newPlot('bar_region', {{ charts.bar_region|safe }});
+            </script>
+            {% endif %}
+
+            {% if charts.line_sales %}
+            <h2>Sales Over Time</h2>
+            <div id="line_sales"></div>
+            <script>
+                Plotly.newPlot('line_sales', {{ charts.line_sales|safe }});
+            </script>
+            {% endif %}
+
+            {% if not charts.bar_product and not charts.bar_region and not charts.line_sales %}
+            <p>No charts to display. Please upload a file with data to generate visualizations.</p>
+            {% endif %}
+        </div>
     </div>
 </body>
 </html>

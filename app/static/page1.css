@@ -199,3 +199,57 @@ footer {
     font-size: 0.9em;
     border-top: 1px solid #e0e0e0;
 }
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between form elements */
+    align-items: center;
+    margin-top: 20px;
+}
+
+input[type="file"],
+input[type="text"] {
+    width: 70%; /* Adjust width as per your design preference */
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc; /* Subtle border */
+    font-size: 16px; /* Larger font size for better readability */
+}
+
+input[type="text"] {
+    padding: 10px;
+    outline: none; /* Removes the default focus outline to handle focus in CSS */
+    transition: border-color 0.3s; /* Smooth transition for focus effect */
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+    border-color: #1e2e5c; /* Highlight focus with theme color */
+}
+
+.primary-btn {
+    background-color: #1e2e5c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    width: auto; /* Auto-width according to content */
+    text-transform: uppercase; /* Uppercase text for better visibility */
+}
+
+.primary-btn:hover {
+    background-color: #16376b; /* Darker shade on hover */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    input[type="file"],
+    input[type="text"] {
+        width: 90%; /* Wider inputs on smaller screens */
+    }
+}

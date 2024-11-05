@@ -1,14 +1,62 @@
 from flask import Blueprint, render_template, request
-from .utils import process_excel, ask_gpt
+import pandas as pd
+import plotly.express as px
+import plotly
+import json
+from .utils import analyze_excel, ask_cohere, generate_data_summary
 
 main = Blueprint('main', __name__)
 
-@main.route('/', methods=['GET', 'POST'])
+@main.route("/", methods=["GET", "POST"])
 def index():
-    answer = None
-    if request.method == 'POST':
-        file = request.files['file']
-        query = request.form['query']
-        data_summary = process_excel(file)
-        answer = ask_gpt(query, data_summary)
-    return render_template('index.html', answer=answer)
+    response = None
+    summary_data = None
+    error_message = None
+    charts = {}
+
+    if request.method == "POST":
+        if "file" in request.files:
+            file = request.files["file"]
+            # Load and analyze the Excel file
+            data_info, error_message = analyze_excel(file)
+            if data_info:
+                summary_data = generate_data_summary(data_info)
+                
+                # Load data for visualization
+                df = pd.read_excel(file)
+                
+                # Generate metrics and charts
+                charts['bar_product'] = create_bar_chart(df, 'Product')
+                charts['bar_region'] = create_bar_chart(df, 'Region')
+                if 'Sales' in df.columns and 'Date' in df.columns:
+                    charts['line_sales'] = create_line_chart(df, 'Date', 'Sales')
+
+        # Process the query if provided and there is no error
+        if "query" in request.form and summary_data and not error_message:
+            query = request.form["query"]
+            response = ask_cohere(query, data_info)
+
+    return render_template("index.html", response=response, summary_data=summary_data, error_message=error_message, charts=charts)
+
+# Helper function to create bar charts
+def create_bar_chart(df, column):
+    if column in df.columns:
+        # Get value counts and reset the index
+        df_counts = df[column].value_counts().reset_index()
+        # Rename columns for clarity
+        df_counts.columns = [column, 'count']
+        
+        # Create the bar chart
+        fig = px.bar(df_counts, x=column, y='count')
+        fig.update_layout(title=f"Frequency of {column}", xaxis_title=column, yaxis_title="Count")
+        return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return None
+
+# Helper function to create a line chart for sales over time
+def create_line_chart(df, date_col, sales_col):
+    if date_col in df.columns and sales_col in df.columns:
+        df[date_col] = pd.to_datetime(df[date_col])
+        fig = px.line(df, x=date_col, y=sales_col, title="Sales Over Time")
+        fig.update_layout(xaxis_title="Date", yaxis_title="Sales")
+        return json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    return None
